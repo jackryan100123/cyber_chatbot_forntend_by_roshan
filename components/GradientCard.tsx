@@ -21,8 +21,11 @@ export const GradientCard: React.FC<GradientCardProps> = ({
   if (useGradient) {
     return (
       <LinearGradient
-        colors={theme.colors.gradient[gradientType]}
-        style={[styles.card, style]}>
+        colors={
+          theme.colors.gradient[gradientType] as [string, string, ...string[]]
+        } // Explicit type casting
+        style={[styles.card, style]}
+      >
         {children}
       </LinearGradient>
     );

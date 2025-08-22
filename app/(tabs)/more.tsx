@@ -10,7 +10,23 @@ import {
   Switch,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Phone, Mail, Globe, MapPin, Download, FileText, Shield, Users, TriangleAlert as AlertTriangle, ExternalLink, BookOpen, Headphones as HeadphonesIcon, Moon, Sun, Settings } from 'lucide-react-native';
+import {
+  Phone,
+  Mail,
+  Globe,
+  MapPin,
+  Download,
+  FileText,
+  Shield,
+  Users,
+  TriangleAlert as AlertTriangle,
+  ExternalLink,
+  BookOpen,
+  Headphones as HeadphonesIcon,
+  Moon,
+  Sun,
+  Settings,
+} from 'lucide-react-native';
 import { useTheme } from '@/contexts/ThemeContext';
 import { GradientCard } from '@/components/GradientCard';
 import { GridLayout } from '@/components/GridLayout';
@@ -25,7 +41,9 @@ interface Resource {
 
 export default function MoreScreen() {
   const { theme, toggleTheme, isDark } = useTheme();
-  const [downloadingResource, setDownloadingResource] = useState<string | null>(null);
+  const [downloadingResource, setDownloadingResource] = useState<string | null>(
+    null
+  );
 
   const emergencyContacts = [
     {
@@ -80,47 +98,47 @@ export default function MoreScreen() {
     {
       id: '1',
       title: 'Cybersecurity Best Practices Guide',
-      description: 'Comprehensive guide covering essential cybersecurity practices for individuals and businesses.',
+      description:
+        'Comprehensive guide covering essential cybersecurity practices for individuals and businesses.',
       type: 'pdf',
       size: '2.4 MB',
     },
     {
       id: '2',
       title: 'Phishing Attack Prevention',
-      description: 'Learn to identify and prevent phishing attacks with real-world examples and tips.',
+      description:
+        'Learn to identify and prevent phishing attacks with real-world examples and tips.',
       type: 'guide',
       size: '1.8 MB',
     },
     {
       id: '3',
       title: 'Social Media Security Checklist',
-      description: 'Step-by-step checklist to secure your social media accounts and protect your privacy.',
+      description:
+        'Step-by-step checklist to secure your social media accounts and protect your privacy.',
       type: 'checklist',
       size: '890 KB',
     },
     {
       id: '4',
       title: 'Mobile Device Security Handbook',
-      description: 'Complete guide to securing smartphones and tablets against cyber threats.',
+      description:
+        'Complete guide to securing smartphones and tablets against cyber threats.',
       type: 'pdf',
       size: '3.1 MB',
     },
   ];
 
   const handleCall = (phoneNumber: string) => {
-    Alert.alert(
-      'Make Call',
-      `Do you want to call ${phoneNumber}?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Call',
-          onPress: () => {
-            Linking.openURL(`tel:${phoneNumber}`);
-          },
+    Alert.alert('Make Call', `Do you want to call ${phoneNumber}?`, [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Call',
+        onPress: () => {
+          Linking.openURL(`tel:${phoneNumber}`);
         },
-      ]
-    );
+      },
+    ]);
   };
 
   const handleEmail = (email: string) => {
@@ -159,7 +177,7 @@ export default function MoreScreen() {
     const latitude = 30.739204757628027;
     const longitude = 76.77835647910382;
     const url = `https://maps.google.com/?q=${latitude},${longitude}`;
-    
+
     Alert.alert(
       'Open Map',
       'This will show cyber police station locations in Google Maps.',
@@ -177,7 +195,7 @@ export default function MoreScreen() {
 
   const downloadResource = async (resource: Resource) => {
     setDownloadingResource(resource.id);
-    
+
     // Simulate download
     setTimeout(() => {
       setDownloadingResource(null);
@@ -191,31 +209,46 @@ export default function MoreScreen() {
 
   const getResourceIcon = (type: string) => {
     switch (type) {
-      case 'pdf': return FileText;
-      case 'guide': return BookOpen;
-      case 'checklist': return Shield;
-      default: return FileText;
+      case 'pdf':
+        return FileText;
+      case 'guide':
+        return BookOpen;
+      case 'checklist':
+        return Shield;
+      default:
+        return FileText;
     }
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>
         <GradientCard useGradient style={styles.header}>
           <Settings size={24} color="#ffffff" />
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>Resources & Settings</Text>
-            <Text style={styles.headerSubtitle}>Emergency help & app preferences</Text>
+            <Text style={styles.headerSubtitle}>
+              Emergency help & app preferences
+            </Text>
           </View>
         </GradientCard>
 
         {/* Theme Settings */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>App Settings</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
+            App Settings
+          </Text>
           <GradientCard style={styles.settingCard}>
             <View style={styles.settingRow}>
               <View style={styles.settingInfo}>
-                <View style={[styles.settingIcon, { backgroundColor: `${theme.colors.primary}15` }]}>
+                <View
+                  style={[
+                    styles.settingIcon,
+                    { backgroundColor: `${theme.colors.primary}15` },
+                  ]}
+                >
                   {isDark ? (
                     <Moon size={20} color={theme.colors.primary} />
                   ) : (
@@ -223,10 +256,17 @@ export default function MoreScreen() {
                   )}
                 </View>
                 <View>
-                  <Text style={[styles.settingTitle, { color: theme.colors.text }]}>
+                  <Text
+                    style={[styles.settingTitle, { color: theme.colors.text }]}
+                  >
                     {isDark ? 'Dark Mode' : 'Light Mode'}
                   </Text>
-                  <Text style={[styles.settingSubtitle, { color: theme.colors.textSecondary }]}>
+                  <Text
+                    style={[
+                      styles.settingSubtitle,
+                      { color: theme.colors.textSecondary },
+                    ]}
+                  >
                     Toggle app appearance
                   </Text>
                 </View>
@@ -234,7 +274,10 @@ export default function MoreScreen() {
               <Switch
                 value={isDark}
                 onValueChange={toggleTheme}
-                trackColor={{ false: theme.colors.border, true: theme.colors.primary }}
+                trackColor={{
+                  false: theme.colors.border,
+                  true: theme.colors.primary,
+                }}
                 thumbColor={isDark ? '#ffffff' : '#f4f3f4'}
               />
             </View>
@@ -243,21 +286,50 @@ export default function MoreScreen() {
 
         {/* Emergency Services */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Emergency Services</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
+            Emergency Services
+          </Text>
           <GridLayout columns={1} spacing={12}>
             {emergencyContacts.map((contact) => (
               <TouchableOpacity
                 key={contact.id}
-                style={[styles.contactCard, { backgroundColor: theme.colors.card }]}
+                style={[
+                  styles.contactCard,
+                  { backgroundColor: theme.colors.card },
+                ]}
                 onPress={contact.action}
-                activeOpacity={0.7}>
-                <View style={[styles.contactIcon, { backgroundColor: `${contact.color}15` }]}>
+                activeOpacity={0.7}
+              >
+                <View
+                  style={[
+                    styles.contactIcon,
+                    { backgroundColor: `${contact.color}15` },
+                  ]}
+                >
                   <contact.icon size={24} color={contact.color} />
                 </View>
                 <View style={styles.contactInfo}>
-                  <Text style={[styles.contactTitle, { color: theme.colors.text }]}>{contact.title}</Text>
-                  <Text style={[styles.contactSubtitle, { color: theme.colors.textSecondary }]}>{contact.subtitle}</Text>
-                  <Text style={[styles.contactValue, { color: theme.colors.primary }]}>{contact.value}</Text>
+                  <Text
+                    style={[styles.contactTitle, { color: theme.colors.text }]}
+                  >
+                    {contact.title}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.contactSubtitle,
+                      { color: theme.colors.textSecondary },
+                    ]}
+                  >
+                    {contact.subtitle}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.contactValue,
+                      { color: theme.colors.primary },
+                    ]}
+                  >
+                    {contact.value}
+                  </Text>
                 </View>
                 <ExternalLink size={20} color={theme.colors.textSecondary} />
               </TouchableOpacity>
@@ -267,22 +339,51 @@ export default function MoreScreen() {
 
         {/* Contact Authorities */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Contact Authorities</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
+            Contact Authorities
+          </Text>
           <GridLayout columns={1} spacing={12}>
             {contactAuthorities.map((contact) => (
               <TouchableOpacity
                 key={contact.id}
-                style={[styles.contactCard, { backgroundColor: theme.colors.card }]}
+                style={[
+                  styles.contactCard,
+                  { backgroundColor: theme.colors.card },
+                ]}
                 onPress={contact.action}
-                activeOpacity={0.7}>
-                <View style={[styles.contactIcon, { backgroundColor: `${contact.color}15` }]}>
+                activeOpacity={0.7}
+              >
+                <View
+                  style={[
+                    styles.contactIcon,
+                    { backgroundColor: `${contact.color}15` },
+                  ]}
+                >
                   <contact.icon size={24} color={contact.color} />
                 </View>
                 <View style={styles.contactInfo}>
-                  <Text style={[styles.contactTitle, { color: theme.colors.text }]}>{contact.title}</Text>
-                  <Text style={[styles.contactSubtitle, { color: theme.colors.textSecondary }]}>{contact.subtitle}</Text>
+                  <Text
+                    style={[styles.contactTitle, { color: theme.colors.text }]}
+                  >
+                    {contact.title}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.contactSubtitle,
+                      { color: theme.colors.textSecondary },
+                    ]}
+                  >
+                    {contact.subtitle}
+                  </Text>
                   {contact.value && (
-                    <Text style={[styles.contactValue, { color: theme.colors.primary }]}>{contact.value}</Text>
+                    <Text
+                      style={[
+                        styles.contactValue,
+                        { color: theme.colors.primary },
+                      ]}
+                    >
+                      {contact.value}
+                    </Text>
                   )}
                 </View>
                 <ExternalLink size={20} color={theme.colors.textSecondary} />
@@ -293,32 +394,73 @@ export default function MoreScreen() {
 
         {/* Cybersecurity Resources */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Cybersecurity Resources</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
+            Cybersecurity Resources
+          </Text>
           <GridLayout columns={1} spacing={12}>
             {resources.map((resource) => {
               const ResourceIcon = getResourceIcon(resource.type);
               const isDownloading = downloadingResource === resource.id;
-              
+
               return (
                 <GradientCard key={resource.id} style={styles.resourceCard}>
                   <View style={styles.resourceHeader}>
-                    <View style={[styles.resourceIcon, { backgroundColor: `${theme.colors.primary}15` }]}>
+                    <View
+                      style={[
+                        styles.resourceIcon,
+                        { backgroundColor: `${theme.colors.primary}15` },
+                      ]}
+                    >
                       <ResourceIcon size={20} color={theme.colors.primary} />
                     </View>
                     <View style={styles.resourceInfo}>
-                      <Text style={[styles.resourceTitle, { color: theme.colors.text }]}>{resource.title}</Text>
-                      <Text style={[styles.resourceSize, { color: theme.colors.textSecondary }]}>{resource.size}</Text>
+                      <Text
+                        style={[
+                          styles.resourceTitle,
+                          { color: theme.colors.text },
+                        ]}
+                      >
+                        {resource.title}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.resourceSize,
+                          { color: theme.colors.textSecondary },
+                        ]}
+                      >
+                        {resource.size}
+                      </Text>
                     </View>
                     <TouchableOpacity
-                      style={[styles.downloadButton, { 
-                        backgroundColor: isDownloading ? theme.colors.border : `${theme.colors.primary}15` 
-                      }]}
+                      style={[
+                        styles.downloadButton,
+                        {
+                          backgroundColor: isDownloading
+                            ? theme.colors.border
+                            : `${theme.colors.primary}15`,
+                        },
+                      ]}
                       onPress={() => downloadResource(resource)}
-                      disabled={isDownloading}>
-                      <Download size={18} color={isDownloading ? theme.colors.textSecondary : theme.colors.primary} />
+                      disabled={isDownloading}
+                    >
+                      <Download
+                        size={18}
+                        color={
+                          isDownloading
+                            ? theme.colors.textSecondary
+                            : theme.colors.primary
+                        }
+                      />
                     </TouchableOpacity>
                   </View>
-                  <Text style={[styles.resourceDescription, { color: theme.colors.textSecondary }]}>{resource.description}</Text>
+                  <Text
+                    style={[
+                      styles.resourceDescription,
+                      { color: theme.colors.textSecondary },
+                    ]}
+                  >
+                    {resource.description}
+                  </Text>
                 </GradientCard>
               );
             })}
@@ -328,15 +470,32 @@ export default function MoreScreen() {
         {/* Additional Help */}
         <View style={styles.section}>
           <GradientCard style={styles.helpCard}>
-            <View style={[styles.helpIcon, { backgroundColor: `${theme.colors.primary}15` }]}>
+            <View
+              style={[
+                styles.helpIcon,
+                { backgroundColor: `${theme.colors.primary}15` },
+              ]}
+            >
               <HeadphonesIcon size={32} color={theme.colors.primary} />
             </View>
-            <Text style={[styles.helpTitle, { color: theme.colors.text }]}>Need Additional Help?</Text>
-            <Text style={[styles.helpDescription, { color: theme.colors.textSecondary }]}>
-              Our AI assistant is available 24/7 to help with cybersecurity questions, 
-              threat reporting, and security guidance.
+            <Text style={[styles.helpTitle, { color: theme.colors.text }]}>
+              Need Additional Help?
             </Text>
-            <TouchableOpacity style={[styles.helpButton, { backgroundColor: theme.colors.primary }]}>
+            <Text
+              style={[
+                styles.helpDescription,
+                { color: theme.colors.textSecondary },
+              ]}
+            >
+              Our AI assistant is available 24/7 to help with cybersecurity
+              questions, threat reporting, and security guidance.
+            </Text>
+            <TouchableOpacity
+              style={[
+                styles.helpButton,
+                { backgroundColor: theme.colors.primary },
+              ]}
+            >
               <Text style={styles.helpButtonText}>Chat with Cyber Saathi</Text>
             </TouchableOpacity>
           </GradientCard>
@@ -354,6 +513,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 20,
+    borderRadius: 0,
   },
   headerTextContainer: {
     marginLeft: 12,

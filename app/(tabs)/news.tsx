@@ -154,6 +154,7 @@ export default function NewsScreen() {
       {/* News Articles */}
       <ScrollView
         style={styles.articlesContainer}
+        contentContainerStyle={styles.articlesContent}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -242,7 +243,11 @@ const styles = StyleSheet.create({
   },
   articlesContainer: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  articlesContent: {
+    paddingBottom: 32, // Added bottom padding to prevent content cutoff
   },
   articleCard: {
     padding: 20,
