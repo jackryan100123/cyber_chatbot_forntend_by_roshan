@@ -8,6 +8,7 @@ import {
   Alert,
   Linking,
   Switch,
+  StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -224,6 +225,11 @@ export default function MoreScreen() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
+       <StatusBar
+              barStyle="dark-content"  // Always black content for iOS status bar (iOS only)
+        translucent={false}
+        backgroundColor={theme.colors.background} // Customize background color
+            />
       <ScrollView showsVerticalScrollIndicator={false}>
         <GradientCard useGradient style={styles.header}>
           <Settings size={24} color="#ffffff" />

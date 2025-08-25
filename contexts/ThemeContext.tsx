@@ -28,6 +28,8 @@ export interface Theme {
     };
   };
   isDark: boolean;
+    
+
 }
 
 const lightTheme: Theme = {

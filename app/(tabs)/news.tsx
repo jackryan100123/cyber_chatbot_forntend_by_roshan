@@ -8,6 +8,7 @@ import {
   RefreshControl,
   ActivityIndicator,
   Alert,
+  StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Newspaper, ExternalLink, Calendar } from 'lucide-react-native';
@@ -30,6 +31,7 @@ export default function NewsScreen() {
   const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Mock data - replace with actual API call
   const mockArticles: NewsArticle[] = [
@@ -143,6 +145,11 @@ export default function NewsScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+       <StatusBar
+              barStyle="dark-content"  // Always black content for iOS status bar (iOS only)
+        translucent={false}
+        backgroundColor={theme.colors.background} // Customize background color
+            />
       <GradientCard useGradient style={styles.header}>
         <Newspaper size={24} color="#ffffff" />
         <View style={styles.headerTextContainer}>
@@ -218,6 +225,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 20,
+     borderRadius: 0,
   },
   headerTextContainer: {
     marginLeft: 12,
