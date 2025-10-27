@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // API Configuration
-const API_BASE_URL = 'https://cyber-saathi-backend-1.onrender.com';
+const API_BASE_URL = 'https://cybersaathi.info';
 
 // Add timeout and better error handling
 const TIMEOUT_MS = 10000; // 10 seconds
