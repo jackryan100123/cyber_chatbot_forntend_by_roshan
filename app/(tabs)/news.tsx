@@ -341,6 +341,7 @@ import { Newspaper, ExternalLink, Calendar } from 'lucide-react-native';
 import { useTheme } from '@/contexts/ThemeContext';
 import { GradientCard } from '@/components/GradientCard';
 import { GridLayout } from '@/components/GridLayout';
+import * as Notifications from 'expo-notifications';
 
 // ⬇️ bring in your API client + types from previous code
 import api, {
@@ -359,17 +360,119 @@ export default function NewsScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastNotificationArticleId, setLastNotificationArticleId] = useState<string | null>(null);
 
   useEffect(() => {
+    // Configure notifications and request permissions
+    configureNotifications();
+
     loadNews();
 
-    // Auto-refresh every 12 hours to mirror backend crawling, like the previous screen
+    // Auto-refresh every 12 hours to mirror backend crawling
     const autoRefresh = setInterval(() => {
       loadNews();
     }, 12 * 60 * 60 * 1000);
 
     return () => clearInterval(autoRefresh);
   }, []);
+
+  // Setup notification handler and permissions
+  const configureNotifications = async () => {
+    try {
+      // Configure notification handler
+      Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: true,
+          shouldSetBadge: true,
+          shouldShowBanner: true,
+          shouldShowList: true,
+        }),
+      });
+
+      // Request permissions
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status === 'granted') {
+        console.log('Notification permission granted');
+        
+        // Cancel existing notifications and schedule new ones
+        await Notifications.cancelAllScheduledNotificationsAsync();
+        
+        // Schedule daily notification at 9:00 AM
+        scheduleDailyNotification();
+      }
+    } catch (error) {
+      console.error('Notification setup error:', error);
+    }
+  };
+
+  // Schedule daily notification at 9:00 AM
+  const scheduleDailyNotification = async () => {
+    try {
+      // Calculate time until next 9:00 AM
+      const now = new Date();
+      const targetTime = new Date();
+      targetTime.setHours(9, 0, 0, 0);
+      
+      // If current time is past 9:00 AM, schedule for tomorrow
+      if (now.getTime() > targetTime.getTime()) {
+        targetTime.setDate(targetTime.getDate() + 1);
+      }
+      
+      const timeUntilTrigger = targetTime.getTime() - now.getTime();
+      
+      // Schedule notification for 9:00 AM daily using TimeIntervalTrigger
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: '🔒 Cyber Saathi Daily Update',
+          body: 'Check out the latest cybersecurity news and threats affecting your digital safety.',
+          data: { type: 'news_daily' },
+        },
+        trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+          seconds: Math.floor(timeUntilTrigger / 1000),
+          repeats: true,
+        },
+      });
+      console.log('Daily news notification scheduled for 9:00 AM');
+    } catch (error) {
+      console.error('Error scheduling notification:', error);
+    }
+  };
+
+  // Send notification when new important news arrives
+  const checkAndNotifyNewArticles = async (newArticles: UiNewsArticle[]) => {
+    try {
+      // Only notify about high severity articles
+      const highSeverityArticles = newArticles.filter(
+        (article) => article.severity === 'high'
+      );
+
+      if (highSeverityArticles.length > 0) {
+        const latestArticle = highSeverityArticles[0];
+        
+        // Check if we've already notified about this article
+        if (latestArticle.url !== lastNotificationArticleId) {
+          await Notifications.scheduleNotificationAsync({
+            content: {
+              title: '🚨 Urgent: Cybersecurity Alert',
+              body: `${latestArticle.title.substring(0, 80)}...`,
+              data: {
+                type: 'news_alert',
+                url: latestArticle.url,
+                severity: 'high',
+              },
+            },
+            trigger: null, // Send immediately
+          });
+
+          setLastNotificationArticleId(latestArticle.url || null);
+        }
+      }
+    } catch (error) {
+      console.error('Error sending news notification:', error);
+    }
+  };
 
   const deriveSeverity = (
     category?: string,
@@ -418,6 +521,9 @@ export default function NewsScreen() {
           })
         );
         setArticles(mapped);
+        
+        // Check for new high-severity articles and notify
+        await checkAndNotifyNewArticles(mapped);
       } else {
         setError(response.error || 'Failed to fetch news');
         setArticles([]);

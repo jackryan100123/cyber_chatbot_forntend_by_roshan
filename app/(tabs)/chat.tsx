@@ -1295,7 +1295,7 @@ export default function ChatScreen() {
     {
       id: '1',
       content:
-        "Hello! I'm CyberSaathi, your AI-powered cybersecurity assistant. I'm here to help you stay safe online.\n\nI can assist you with:\n• **Reporting cyber crimes**\n• **Checking website safety**\n• **Providing security tips**\n• **Emergency cyber help**\n\nHow can I help protect you today?",
+        "Hello! I'm CyberSaathi, your AI-powered cybersecurity assistant. I'm here to help you stay safe online.\n\nI can assist you with:\n• Reporting cyber crimes\n• Providing security tips\n• Emergency cyber help\n\nHow can I help protect you today?",
       sender: 'bot',
       timestamp: new Date(),
       type: 'info',

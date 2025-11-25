@@ -21,7 +21,7 @@ export default function TabLayout() {
           backgroundColor: theme.colors.surface,
           borderTopColor: theme.colors.border,
           borderTopWidth: 1,
-          paddingTop: 8,
+          paddingTop: 1,
           // keep above the home indicator; don't fix height
           paddingBottom: Math.max(insets.bottom, 8),
         },
